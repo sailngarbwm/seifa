@@ -1,0 +1,6 @@
+[run]
+source = seifa
+
+[report]
+precision = 2
+
