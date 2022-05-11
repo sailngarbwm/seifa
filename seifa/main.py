@@ -84,7 +84,7 @@ def seifa_vic(
 
     warnings.filterwarnings("ignore")
 
-    from .seifa_vic import interpolate_vic_suburb_seifa
+    from .seifa import interpolate_vic_suburb_seifa
 
     result = interpolate_vic_suburb_seifa(
         year_value,
@@ -127,7 +127,7 @@ def seifa_vic_gis(
 
     warnings.filterwarnings("ignore")
 
-    from .seifa_vic import get_seifa_gis
+    from .seifa import get_seifa_gis
 
     suburbs_df = get_seifa_gis(
         date,

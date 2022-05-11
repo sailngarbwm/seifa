@@ -54,7 +54,7 @@ MOCKED_FILES = [
 
 def fake_data_cached_path(filename):
     return (
-        Path(__file__).parent.resolve() / "testdata" / "ausdex" / "mock_gis" / filename
+        Path(__file__).parent.resolve() / "testdata" / "seifa" / "mock_gis" / filename
     )
 
 
@@ -72,7 +72,7 @@ def mock_user_get_cached_path(filename):
             return fcp
 
     else:
-        cache_dir = Path(user_cache_dir("ausdex"))
+        cache_dir = Path(user_cache_dir("seifa"))
         cache_dir.mkdir(exist_ok=True, parents=True)
         return cache_dir / filename
 
@@ -523,9 +523,9 @@ class TestDataIO(unittest.TestCase):
 )
 class TestSeifaGisViz(unittest.TestCase):
     def setUp(self) -> None:
-        from ausdex import seifa_vic
+        from seifa import seifa
 
-        self.seifa_vic = seifa_vic
+        self.seifa_vic = seifa
         self.tmp = Path("tmp")
         self.tmp.mkdir(exist_ok=True)
         return super().setUp()
@@ -550,13 +550,13 @@ class TestSeifaGisViz(unittest.TestCase):
         fig = get_seifa_map(
             "05-11-2015", Metric["ier_score"], fill_value="extrapolate", simplify=0.001
         )
-        # fig.write_json('tests/testdata/ausdex/mock_gis/test_map.json')
+        # fig.write_json('tests/testdata/seifa/mock_gis/test_map.json')
         fig.write_json(self.tmp / "test_map.json")
         import filecmp
 
         self.assertTrue(
             filecmp.cmp(
-                "tests/testdata/ausdex/mock_gis/test_map.json",
+                "tests/testdata/seifa/mock_gis/test_map.json",
                 self.tmp / "test_map.json",
             )
         )
@@ -567,14 +567,14 @@ class TestSeifaGisViz(unittest.TestCase):
         fig = create_timeseries_chart(
             ["abbotsford", "ASCOT - BALLARAT"], Metric["irsd_score"]
         )
-        # fig.write_json('tests/testdata/ausdex/mock_gis/test_fig.json')
+        # fig.write_json('tests/testdata/seifa/mock_gis/test_fig.json')
         fig.write_json(self.tmp / "test_fig.json")
 
         import filecmp
 
         self.assertTrue(
             filecmp.cmp(
-                "tests/testdata/ausdex/mock_gis/test_fig.json",
+                "tests/testdata/seifa/mock_gis/test_fig.json",
                 self.tmp / "test_fig.json",
             )
         )
@@ -630,7 +630,7 @@ class TestSeifaGisViz(unittest.TestCase):
         assert (self.tmp / "test_plot.html").exists()
 
     def test_gis_clipping(self):
-        from ausdex.gis_utils import clip_gdf
+        from seifa.gis_utils import clip_gdf
         from seifa import get_seifa_gis
 
         gdf = get_seifa_gis("05-11-2015", "ier_score", fill_value="extrapolate")
