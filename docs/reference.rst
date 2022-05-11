@@ -3,20 +3,11 @@
 API Reference
 =======================
 
-Socio-economic Indices 
-======================
-
-.. automodule:: ausdex.seifa_vic.seifa_vic
+.. automodule:: seifa.seifa
    :members:
-
-Inflation 
-=========
-
-.. automodule:: ausdex.inflation
-   :members:   
 
 Main 
 ======================
 
-.. automodule:: ausdex.main
+.. automodule:: seifa.main
    :members:      

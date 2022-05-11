@@ -1,18 +1,18 @@
 # Installation
 
-You can install `ausdex` from the Python Package Index (PyPI):
+You can install `seifa` from the Python Package Index (PyPI):
 
 ```
-pip install ausdex
+pip install seifa
 ```
 
 ## Development
 
-To devlop ausdex, clone the repo and install the dependencies using [poetry](https://python-poetry.org/):
+To devlop seifa, clone the repo and install the dependencies using [poetry](https://python-poetry.org/):
 
 ```
-git clone https://github.com/sailngarbwm/ausdex.git
-cd ausdex
+git clone https://github.com/sailngarbwm/seifa.git
+cd seifa
 poetry install
 ```
 
