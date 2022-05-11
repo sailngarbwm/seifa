@@ -22,7 +22,7 @@ class TestMain(unittest.TestCase):
         assert result.exit_code == 0
         mock_launch.assert_called_once()
         self.assertIn(
-            "https://github.com/rbturnbull/ausdex", str(mock_launch.call_args)
+            "https://github.com/sailngarbwm/ausdex", str(mock_launch.call_args)
         )
 
     @patch("subprocess.run")

@@ -11,7 +11,7 @@ pip install ausdex
 To devlop ausdex, clone the repo and install the dependencies using [poetry](https://python-poetry.org/):
 
 ```
-git clone https://github.com/rbturnbull/ausdex.git
+git clone https://github.com/sailngarbwm/ausdex.git
 cd ausdex
 poetry install
 ```

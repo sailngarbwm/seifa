@@ -9,10 +9,10 @@ from scipy.interpolate import interp1d
 import modin.pandas as mpd
 import plotly
 import warnings
+from ausdex.dates import date_time_to_decimal_year
 
-from ..data_viz import create_choropleth_from_geodf, create_line_plot
-from ..gis_utils import clip_gdf
-from ..dates import date_time_to_decimal_year
+from .data_viz import create_choropleth_from_geodf, create_line_plot
+from .gis_utils import clip_gdf
 from .data_wrangling import preprocess_victorian_datasets, wrangle_victorian_gis_data
 
 

@@ -9,12 +9,14 @@ from appdirs import user_cache_dir
 import geopandas as gpd
 import warnings
 import shutil
-from ausdex.seifa_vic.data_wrangling import preprocess_victorian_datasets
-from ausdex.seifa_vic.seifa_vic import Metric
+
+from seifa.data_wrangling import preprocess_victorian_datasets
+from seifa.seifa import Metric
 import pandas as pd
 from typer.testing import CliRunner
-from ausdex import main
-from ausdex.seifa_vic.data_io import (
+from seifa import main
+
+from seifa.data_io import (
     get_data_links,
     load_aurin_config,
     load_aurin_data,
@@ -91,11 +93,11 @@ def mock_preproces_vic_datasets(force_rebuild=False, save_file=False):
 
 class TestSeifaVicSetup(unittest.TestCase):
     @patch(
-        "ausdex.seifa_vic.data_io.get_cached_path",
+        "seifa.data_io.get_cached_path",
         lambda filename: mock_user_get_cached_path(filename),
     )
     @patch(
-        "ausdex.seifa_vic.data_wrangling.load_shapefile_data",
+        "seifa.data_wrangling.load_shapefile_data",
         lambda filename: mock_load_shapefile_data(filename),
     )
     def test_preprocess_victorian_datasets(self):
@@ -119,7 +121,7 @@ class TestSeifaVicSetup(unittest.TestCase):
         self.assertNotIn("ASCOT - BALLARAT CITY", df.Site_suburb.unique())
 
     def test_group_repeat_names_vic(self):
-        from ausdex.seifa_vic.data_wrangling import group_repeat_names_vic
+        from seifa.data_wrangling import group_repeat_names_vic
 
         ids = [
             "VIC2961",
@@ -148,7 +150,7 @@ class TestSeifaVicSetup(unittest.TestCase):
         self.assertEqual(value, "test_failed")
 
     @patch(
-        "ausdex.seifa_vic.seifa_vic.preprocess_victorian_datasets",
+        "seifa.seifa.preprocess_victorian_datasets",
         lambda force_rebuild: mock_preproces_vic_datasets(False)
         if force_rebuild == True
         else None,
@@ -162,12 +164,12 @@ class TestSeifaVicSetup(unittest.TestCase):
 
 
 @patch(
-    "ausdex.seifa_vic.seifa_vic.preprocess_victorian_datasets",
+    "seifa.seifa.preprocess_victorian_datasets",
     lambda force_rebuild: mock_preproces_vic_datasets(False),
 )
 class TestSeifaInterpolation(unittest.TestCase):
     def setUp(self) -> None:
-        from ausdex.seifa_vic.seifa_vic import interpolate_vic_suburb_seifa
+        from seifa.seifa import interpolate_vic_suburb_seifa
 
         self.interpolate = interpolate_vic_suburb_seifa
         return super().setUp()
@@ -202,7 +204,7 @@ class TestSeifaInterpolation(unittest.TestCase):
         self.assertTrue(value == 0)
 
     def test_interpolation_onevalue(self):
-        from ausdex.seifa_vic import SeifaVic
+        from seifa import SeifaVic
 
         seifa_vic = SeifaVic(False)
         seifa_vic.df = pd.DataFrame(
@@ -354,7 +356,7 @@ class TestSeifaInterpolation(unittest.TestCase):
         assert "973.19" in result.stdout
 
     def test_get_repeated_names(self):
-        from ausdex.seifa_vic.seifa_vic import get_repeated_names
+        from seifa.seifa import get_repeated_names
 
         names = get_repeated_names()
         assert "ASCOT - BALLARAT" in names
@@ -401,7 +403,7 @@ def patch_open_geopandas_2(filename):
 
 
 @patch(
-    "ausdex.seifa_vic.data_io.get_aurin_creds_path",
+    "seifa.data_io.get_aurin_creds_path",
     lambda: Path(__file__).parent / "aurin_creds_dummy.json",
 )
 class TestDataIO(unittest.TestCase):
@@ -422,11 +424,11 @@ class TestDataIO(unittest.TestCase):
             shutil.rmtree((Path(__file__).parent / "testdata" / "tmp"))
         return super().tearDown()
 
-    @patch("ausdex.seifa_vic.data_io._get_input", lambda msg: "test_username")
-    @patch("ausdex.seifa_vic.data_io._get_getpass", lambda msg: "test_password")
-    @patch("ausdex.seifa_vic.data_io.get_config_ini", lambda: Path("does not exist"))
+    @patch("seifa.data_io._get_input", lambda msg: "test_username")
+    @patch("seifa.data_io._get_getpass", lambda msg: "test_password")
+    @patch("seifa.data_io.get_config_ini", lambda: Path("does not exist"))
     def test_make_aurin_config_as_json(self):
-        from ausdex.seifa_vic.data_io import get_aurin_creds_path
+        from seifa.data_io import get_aurin_creds_path
 
         load_aurin_config()
         with open(get_aurin_creds_path(), "r") as file:
@@ -435,17 +437,17 @@ class TestDataIO(unittest.TestCase):
         self.assertEqual(creds["password"], "test_password")
 
     @patch(
-        "ausdex.seifa_vic.data_io.download_from_aurin",
+        "seifa.data_io.download_from_aurin",
         lambda wfs_aurin, dataset, links, local_path: patch_download_from_aurin(
             wfs_aurin, dataset, links, local_path
         ),
     )
     @patch(
-        "ausdex.seifa_vic.data_io.open_geopandas",
+        "seifa.data_io.open_geopandas",
         lambda file: patch_open_geopandas(file),
     )
     @patch(
-        "ausdex.seifa_vic.data_io.get_cached_path",
+        "seifa.data_io.get_cached_path",
         lambda filename: patch_get_cached_path_schema(filename),
     )
     def test_aurin_data(self):
@@ -462,7 +464,7 @@ class TestDataIO(unittest.TestCase):
             self.assertDictEqual(saved_schema[dset], d)
 
     @patch(
-        "ausdex.seifa_vic.data_io.get_cached_path",
+        "seifa.data_io.get_cached_path",
         lambda filename: mock_user_get_cached_path(filename),
     )
     def test_aurin_already_downloaded(self):
@@ -487,16 +489,16 @@ class TestDataIO(unittest.TestCase):
         self.assertIn("locality_name", df.columns)
 
     @patch(
-        "ausdex.seifa_vic.data_io.open_geopandas",
+        "seifa.data_io.open_geopandas",
         lambda file: patch_open_geopandas_2(file),
     )
     @patch(
-        "ausdex.seifa_vic.data_io.unzip",
+        "seifa.data_io.unzip",
         lambda local_path, new_path_name: patch_unzip(local_path, new_path_name),
     )
-    @patch("ausdex.seifa_vic.data_io.cached_download", lambda url, local_path: None)
+    @patch("seifa.data_io.cached_download", lambda url, local_path: None)
     @patch(
-        "ausdex.seifa_vic.data_io.get_data_links",
+        "seifa.data_io.get_data_links",
         lambda: {"test_dataset": "test_dataset_folder"},
     )
     def test_load_shapefile_data(self):
@@ -508,15 +510,15 @@ class TestDataIO(unittest.TestCase):
 
 
 @patch(
-    "ausdex.seifa_vic.data_io.get_cached_path",
+    "seifa.data_io.get_cached_path",
     lambda filename: mock_user_get_cached_path(filename),
 )
 @patch(
-    "ausdex.seifa_vic.data_wrangling.load_shapefile_data",
+    "seifa.data_wrangling.load_shapefile_data",
     lambda filename: mock_load_shapefile_data(filename),
 )
 @patch(
-    "ausdex.seifa_vic.seifa_vic.preprocess_victorian_datasets",
+    "seifa.seifa.preprocess_victorian_datasets",
     lambda force_rebuild: mock_preproces_vic_datasets(False),
 )
 class TestSeifaGisViz(unittest.TestCase):
@@ -534,7 +536,7 @@ class TestSeifaGisViz(unittest.TestCase):
         return super().tearDown()
 
     def test_seifa_gis(self):
-        from ausdex.seifa_vic import get_seifa_gis
+        from seifa import get_seifa_gis
 
         gdf = get_seifa_gis("05-11-2015", "ier_score", fill_value="extrapolate")
         print(gdf.shape)
@@ -543,7 +545,7 @@ class TestSeifaGisViz(unittest.TestCase):
         self.assertIn("ier_score", gdf.columns)
 
     def test_seifa_map(self):
-        from ausdex.seifa_vic import get_seifa_map
+        from seifa import get_seifa_map
 
         fig = get_seifa_map(
             "05-11-2015", Metric["ier_score"], fill_value="extrapolate", simplify=0.001
@@ -560,7 +562,7 @@ class TestSeifaGisViz(unittest.TestCase):
         )
 
     def test_seifa_plot(self):
-        from ausdex.seifa_vic import create_timeseries_chart
+        from seifa import create_timeseries_chart
 
         fig = create_timeseries_chart(
             ["abbotsford", "ASCOT - BALLARAT"], Metric["irsd_score"]
@@ -629,7 +631,7 @@ class TestSeifaGisViz(unittest.TestCase):
 
     def test_gis_clipping(self):
         from ausdex.gis_utils import clip_gdf
-        from ausdex.seifa_vic import get_seifa_gis
+        from seifa import get_seifa_gis
 
         gdf = get_seifa_gis("05-11-2015", "ier_score", fill_value="extrapolate")
 

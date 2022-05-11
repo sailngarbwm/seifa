@@ -7,8 +7,7 @@ import importlib_metadata as lib_metadata
 from typing import Optional
 import subprocess
 
-from ausdex.seifa_vic.seifa_vic import Metric
-from ausdex import calc_inflation
+from .seifa import Metric
 
 app = typer.Typer()
 
@@ -25,7 +24,7 @@ def repo():
     """
     Opens the repository in a web browser.
     """
-    typer.launch("https://github.com/rbturnbull/ausdex")
+    typer.launch("https://github.com/sailngarbwm/ausdex")
 
 
 @app.command()
@@ -50,75 +49,6 @@ def docs(live: bool = True):
         index_page = docs_build_dir / "index.html"
         print(f"Open the index page at {index_page}")
         webbrowser.open_new("file://" + str(index_page))
-
-
-@app.command()
-def inflation(
-    value: float,
-    original_date: str,
-    evaluation_date: str = None,
-):
-    """Adjusts Australian dollars for inflation.
-
-    Prints output to stdout.
-
-    Args:
-        value (float): The dollar value to be converted.
-        original_date (str): The date that the value is in relation to.
-        evaluation_date (str, optional): The date to adjust the value to. Defaults to the current date.
-    """
-
-    result = calc_inflation(value=value, original_date=original_date, evaluation_date=evaluation_date)
-    typer.echo(f"{result:.2f}")
-
-
-@app.command()
-def plot_inflation(
-    compare_date: str,
-    out: Path,
-    start_date: str = typer.Option(None),
-    end_date: str = typer.Option(None),
-    value: float = typer.Option(1.0),
-):
-    """function to plot a time series of dollar values attached to a particular date's dollar value.
-
-    saves output to html file
-
-    Args:
-        compare_date (str): Date to set relative value of the dollars too.
-        out (Path): Path to html file where plot will be saved.
-        start_date (Union[datetime, str, None], optional): Date to set the beginning of the time series graph. Defaults to None, which starts in 1948.
-        end_date (Union[datetime, str, None], optional): Date to set the end of the time series graph too. Defaults to None, which will set the end date to the most recent quarter.
-        value (Union[float, int], optional): Value you in `compare_date` dollars to plot on the time series. Defaults to 1.
-
-
-    """
-    from ausdex.inflation import plot_inflation_timeseries
-
-    fig = plot_inflation_timeseries(compare_date=compare_date, start_date=start_date, end_date=end_date, value=value)
-    fig.write_html(out)
-
-
-@app.command()
-def plot_cpi(
-    out: Path,
-    start_date: str = typer.Option(None),
-    end_date: str = typer.Option(None),
-):
-    """function to plot the Australian CPI vs time
-
-    Saves plot as html in out
-
-    Args:
-        out (Path): Path to html file where plot will be saved.
-        start_date (Union[datetime, str, None], optional): Date to set the beginning of the time series graph. Defaults to None, which starts in 1948.
-        end_date (Union[datetime, str, None], optional): Date to set the end of the time series graph too. Defaults to None, which will set the end date to the most recent quarter.
-
-    """
-    from ausdex.inflation import plot_cpi_timeseries
-
-    fig = plot_cpi_timeseries(start_date=start_date, end_date=end_date)
-    fig.write_html(out)
 
 
 @app.command()
@@ -253,7 +183,7 @@ def seifa_vic_map(
 
     warnings.filterwarnings("ignore")
 
-    from .seifa_vic import get_seifa_map
+    from .seifa import get_seifa_map
 
     if type(clip_mask) == Path:
         import geopandas as gpd
@@ -287,7 +217,7 @@ def seifa_vic_plot(metric: Metric, out: Path, suburbs: List[str]):
         out (Path): Path to html file where plot will be saved
         suburbs (Union[list, np.array, pd.Series, str]): list of suburbs to include in the time series
     """
-    from .seifa_vic import create_timeseries_chart
+    from .seifa import create_timeseries_chart
 
     out_fig = create_timeseries_chart(suburbs=suburbs, metric=metric)
     # Write file
@@ -300,7 +230,7 @@ def seifa_vic_plot(metric: Metric, out: Path, suburbs: List[str]):
 @app.command()
 def seifa_vic_assemble():
     """This function re-assembles the victorian dataset from Aurin and Seifa data"""
-    from .seifa_vic import SeifaVic
+    from .seifa import SeifaVic
 
     seifa_vic = SeifaVic(True)
     seifa_vic._load_data()
@@ -311,5 +241,5 @@ def seifa_vic_assemble():
 def main(
     version: Optional[bool] = typer.Option(None, "--version", "-v", callback=version_callback, is_eager=True),
 ):
-    """Adjusts Australian dollars for inflation or returns interpolated socio-economic indexes for Victorian suburbs."""
+    """Interpolates socio-economic indexes for Victorian suburbs."""
     pass

@@ -2,7 +2,8 @@ import pandas as pd
 from geopandas.tools import sjoin
 import geopandas as gpd
 
-from ..files import get_cached_path
+from ausdex.files import get_cached_path
+
 from .data_io import (
     load_gis_data,
     load_xls_data,

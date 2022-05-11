@@ -103,7 +103,7 @@ For the 2011 and 2016 datasets, we used the same procedure set out above, but st
 Table 2. A list of data sources for `seifa_vic` submodule. 
 
 # Module Features
-The components of the module work both from a simple command-line interface and through the API. The code style adheres to PEP 8 [@pep8] through the use of the [Black](https://black.readthedocs.io/en/stable/) Python code formatter. Automated tests run as part of the CI/CD pipeline and testing coverage is above 96%. The package is thoroughly documented at [https://rbturnbull.github.io/ausdex/](https://rbturnbull.github.io/ausdex/).
+The components of the module work both from a simple command-line interface and through the API. The code style adheres to PEP 8 [@pep8] through the use of the [Black](https://black.readthedocs.io/en/stable/) Python code formatter. Automated tests run as part of the CI/CD pipeline and testing coverage is above 96%. The package is thoroughly documented at [https://sailngarbwm.github.io/seifa/](https://sailngarbwm.github.io/seifa/).
 
 
 # Acknowledgements
