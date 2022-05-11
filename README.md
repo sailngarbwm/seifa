@@ -1,10 +1,9 @@
 # seifa
 
 ![pipline](https://github.com/sailngarbwm/seifa/actions/workflows/coverage.yml/badge.svg)
-[<img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sailngarbwm/49262550cc8b0fb671d46df58de213d4/raw/coverage-badge.json">](<https://sailngarbwm.github.io/seifa/coverage/>)
+[<img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sailngarbwm/GIST_ID/raw/coverage-badge.json">](<https://sailngarbwm.github.io/seifa/coverage/>)
 [<img src="https://github.com/sailngarbwm/seifa/actions/workflows/docs.yml/badge.svg">](<https://sailngarbwm.github.io/seifa/>)
 [<img src="https://img.shields.io/badge/code%20style-black-000000.svg">](<https://github.com/psf/black>)
-[![status](https://joss.theoj.org/papers/817baa72d2b17b535af8f421a43404b0/status.svg)](https://joss.theoj.org/papers/817baa72d2b17b535af8f421a43404b0)
 
 An interface for several Australian socio-economic indexes for socio-economic advantage.
 
