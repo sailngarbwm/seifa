@@ -1,7 +1,7 @@
 # seifa
 
 ![pipline](https://github.com/sailngarbwm/seifa/actions/workflows/coverage.yml/badge.svg)
-[<img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sailngarbwm/GIST_ID/raw/coverage-badge.json">](<https://sailngarbwm.github.io/seifa/coverage/>)
+[<img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sailngarbwm/20bae19966dcdd166310e3ef81e6e1d5/raw/coverage-badge.json">](<https://sailngarbwm.github.io/seifa/coverage/>)
 [<img src="https://github.com/sailngarbwm/seifa/actions/workflows/docs.yml/badge.svg">](<https://sailngarbwm.github.io/seifa/>)
 [<img src="https://img.shields.io/badge/code%20style-black-000000.svg">](<https://github.com/psf/black>)
 
