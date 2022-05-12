@@ -267,7 +267,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             fill_value="boundary_value",
         )
         self.assertAlmostEqual(value[0], 1179.648871, places=3)
-        self.assertAlmostEqual(994.3434, value[1], places=3)
+        self.assertAlmostEqual(994.2851220098421, value[1], places=3)
 
     def test_interpolate_multiple_suburbs_array(self):
         value = self.interpolate(
@@ -277,7 +277,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             fill_value="boundary_value",
         )
         self.assertAlmostEqual(value[0], 1179.648871, places=3)
-        self.assertAlmostEqual(994.3434, value[1], places=3)
+        self.assertAlmostEqual(994.2851220098421, value[1], places=3)
 
     def test_interpolate_list_datetimes_datetimes(self):
         value = self.interpolate(
@@ -287,7 +287,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             fill_value="boundary_value",
         )
         self.assertAlmostEqual(value[0], 1179.648871, places=3)
-        self.assertAlmostEqual(994.3434, value[1], places=3)
+        self.assertAlmostEqual(994.2851220098421, value[1], places=3)
 
     def test_interpolate_single_datetime(self):
         value = self.interpolate(
@@ -296,7 +296,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             "ieo_score",
             fill_value="boundary_value",
         )
-        self.assertAlmostEqual(value, 1179.9308, places=3)
+        self.assertAlmostEqual(value, 1179.929719236909, places=3)
         # self.assertAlmostEqual(1013.1802726224083, value[1], places=3)
 
     def test_interpolate_lga(self):
@@ -306,8 +306,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             "ieo_score",
             lga="Greater Bendigo",
         )
-        self.assertAlmostEqual(value, 973.18854015, places=3)
-        # self.assertAlmostEqual(1013.1802726224083, value[1], places=3
+        self.assertAlmostEqual(value, 973.1908502325706, places=3)
 
     def test_interpolate_lga_list(self):
         value = self.interpolate(
@@ -316,8 +315,8 @@ class TestSeifaInterpolation(unittest.TestCase):
             "ieo_score",
             lga=["Greater Bendigo", "Boroondara"],
         )
-        self.assertAlmostEqual(value[0], 973.18854015, places=3)
-        self.assertAlmostEqual(value[1], 1179.9308, places=3)
+        self.assertAlmostEqual(value[0], 973.1908502325706, places=3)
+        self.assertAlmostEqual(value[1], 1179.929719236909, places=3)
 
     def test_interpolate_lga_series(self):
         value = self.interpolate(
@@ -328,8 +327,8 @@ class TestSeifaInterpolation(unittest.TestCase):
             "ieo_score",
             lga=pd.Series(["Greater Bendigo", "Boroondara"]),
         )
-        self.assertAlmostEqual(value[0], 973.18854015, places=3)
-        self.assertAlmostEqual(value[1], 1179.9308, places=3)
+        self.assertAlmostEqual(value[0], 973.1908502325706, places=3)
+        self.assertAlmostEqual(value[1], 1179.929719236909, places=3)
 
     def test_seifa_vic_cli(self):
         runner = CliRunner()
@@ -337,7 +336,7 @@ class TestSeifaInterpolation(unittest.TestCase):
             main.app, ["seifa-vic", "1991", "abbotsford", "ier_score"]
         )
         assert result.exit_code == 0
-        assert "1005.03" in result.stdout
+        assert "1005.40" in result.stdout
 
     def test_seifa_vic_cli_lga(self):
         runner = CliRunner()
